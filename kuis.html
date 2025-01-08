@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kuis Pilihan Ganda</title>
+    <link rel="icon" href="img/logo.png" type="image/x-icon"> <!-- Ganti dengan path favicon Anda -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
     <style>
         * {
@@ -29,10 +30,13 @@
         }
         .quiz-header {
             padding: 4rem;
+            text-align: center;
+        }
+        .quiz-header img {
+            max-width: 100px; /* Atur ukuran gambar sesuai kebutuhan */
+            margin-bottom: 1rem; /* Jarak antara gambar dan judul */
         }
         h2 {
-            padding: 1rem;
-            text-align: center;
             margin: 0;
         }
         ul {
@@ -70,6 +74,7 @@
 
 <div class="quiz-container">
     <div class="quiz-header">
+        <img src="img/logo.png" alt="Logo Kuis"> <!-- Gambar logo -->
         <h2>Kuis Pilihan Ganda</h2>
     </div>
     <div class="question" id="question"></div>
@@ -96,7 +101,7 @@
         },
         {
             question: "Apa planet terdekat dengan matahari?",
-            options: ["A. Venus", "B. Mars", "C. Merkurius", "D. Bumi"],
+            options : ["A. Venus", "B. Mars", "C. Merkurius", "D. Bumi"],
             answer: "C. Merkurius"
         },
         {
@@ -121,50 +126,35 @@
 
         currentQuestion.options.forEach(option => {
             const li = document.createElement('li');
-            li.innerHTML = `<input type="radio" name="answer" value="${option}"> <label>${option}</label>`;
+            li.innerHTML = `<label><input type="radio" name="option" value="${option}"> ${option}</label>`;
             optionsElement.appendChild(li);
         });
     }
 
     function checkAnswer() {
-        const options = document.getElementsByName ('answer');
-        let selectedAnswer;
-
-        for (const option of options) {
-            if (option.checked) {
-                selectedAnswer = option.value;
-                break;
-            }
-        }
-
-        if (!selectedAnswer) {
+        const selectedOption = document.querySelector('input[name="option"]:checked');
+        if (!selectedOption) {
             alert('Silakan pilih jawaban!');
             return;
         }
 
-        const correctAnswer = questions[currentQuestionIndex].answer;
-
-        if (selectedAnswer === correctAnswer) {
-            alert('Anjay benar');
+        const answer = selectedOption.value;
+        if (answer === questions[currentQuestionIndex].answer) {
+            alert('Jawaban benar!');
         } else {
-            alert('Yahahaha Salah');
+            alert('Jawaban salah! Jawaban yang benar adalah: ' + questions[currentQuestionIndex].answer);
         }
 
         currentQuestionIndex++;
-
         if (currentQuestionIndex < questions.length) {
             loadQuestion();
         } else {
             alert('Kuis selesai! Terima kasih telah berpartisipasi.');
-            // Reset untuk memulai lagi jika diinginkan
-            currentQuestionIndex = 0;
-            loadQuestion();
         }
     }
 
-    // Load the first question on page load
+    // Load the first question
     loadQuestion();
 </script>
-
 </body>
 </html>

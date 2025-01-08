@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Pilihan Ganda</title>
+    <title>Soal Kuis</title>
     <link rel="icon" href="img/logo.png" type="image/x-icon"> <!-- Ganti dengan path favicon Anda -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
     <style>
@@ -29,19 +29,25 @@
             overflow: hidden;
         }
         .quiz-header {
-            padding: 4rem;
-            text-align: center;
+            padding: 2rem;
+            text-align: left; /* Align text to the left */
         }
-        .quiz-header img {
-            max-width: 100px; /* Atur ukuran gambar sesuai kebutuhan */
-            margin-bottom: 1rem; /* Jarak antara gambar dan judul */
-        }
-        h2 {
+        .quiz-header h2 {
             margin: 0;
+        }
+        .question-indicator {
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 20px 0;
+        }
+        .question {
+            padding: 0 20px; /* Add padding to the question */
+            font-size: 1.2rem;
         }
         ul {
             list-style-type: none;
             padding: 0;
+            margin: 0 20px; /* Align options to the left */
         }
         ul li {
             font-size: 1.2rem;
@@ -114,8 +120,9 @@
 
 <div class="quiz-container">
     <div class="quiz-header">
-        <h2>Kuis Pilihan Ganda</h2>
+        <h2>Soal Kuis</h2> <!-- Ganti judul di sini -->
     </div>
+    <div class="question-indicator" id="question-indicator">Soal ke 1</div>
     <div class="question" id="question"></div>
     <ul class="options" id="options"></ul>
     <button onclick="checkAnswer()">Jawab</button>
@@ -136,13 +143,28 @@
     const questions = [
         {
             question: "Apa ibukota Indonesia?",
-            options: ["Jakarta", "Jogja", "Bandung", "Surabaya"],
+            options: ["Jakarta", "Bandung", "Surabaya"],
             answer: "Jakarta"
         },
         {
             question: "Siapa presiden pertama Indonesia?",
-            options: ["Soekarno", "Soeharto", "Hitler", "Jokowi"],
+            options: ["Soekarno", "Soeharto", "Jokowi"],
             answer: "Soekarno"
+        },
+        {
+            question: "Apa warna bendera Indonesia?",
+            options: ["Merah Putih", "Merah Kuning", "Biru Putih"],
+            answer: "Merah Putih"
+        },
+        {
+            question: "Apa mata uang Indonesia?",
+            options: ["Rupiah", "Dollar", "Euro"],
+            answer: "Rupiah"
+        },
+        {
+            question: "Siapa penemu listrik?",
+            options: ["Thomas Edison", "Albert Einstein", "Nikola Tesla"],
+            answer: "Thomas Edison"
         }
     ];
 
@@ -151,16 +173,24 @@
     function loadQuestion() {
         const questionElement = document.getElementById('question');
         const optionsElement = document.getElementById('options');
+        const indicatorElement = document.getElementById('question-indicator');
         const currentQuestion = questions[currentQuestionIndex];
 
-        questionElement.textContent = currentQuestion.question;
-        optionsElement.innerHTML = '';
+        if (currentQuestionIndex < questions.length) {
+            indicatorElement.textContent = `Soal ke ${currentQuestionIndex + 1}`;
+            questionElement.textContent = currentQuestion.question;
+            optionsElement.innerHTML = '';
 
-        currentQuestion.options.forEach(option => {
-            const li = document.createElement('li');
-            li.innerHTML = `<label><input type="radio" name="option" value="${option}"> ${option}</label>`;
-            optionsElement.appendChild(li);
-        });
+            currentQuestion.options.forEach(option => {
+                const li = document.createElement('li');
+                li.innerHTML = `<label><input type="radio" name="option" value="${option}"> ${option}</label>`;
+                optionsElement.appendChild(li);
+            });
+        } else {
+            indicatorElement.textContent = "Okeyy, kuis selesai";
+            questionElement.textContent = "";
+            optionsElement.innerHTML = "";
+        }
     }
 
     function checkAnswer() {
@@ -180,7 +210,7 @@
             popupMessage.textContent = "Jawaban Anda benar! Selamat!";
         } else {
             popupTitle.textContent = "Salah Yahahahah";
-            popupMessage.textContent = `Jawabannya itu ${correctAnswer}. Mangkanya belajar lagi deck`;
+            popupMessage.textContent = `Jawabannya itu ${correctAnswer}... Mangkanya belajar lagi deck`;
         }
 
         popupBackdrop.style.display = 'flex'; // Tampilkan popup
@@ -189,7 +219,7 @@
     function closePopup() {
         const popupBackdrop = document.getElementById('popup-backdrop');
         popupBackdrop.style.display = 'none'; // Sembunyikan popup
-        currentQuestionIndex = (currentQuestionIndex + 1) % questions.length; // Pindah ke pertanyaan berikutnya
+        currentQuestionIndex++;
         loadQuestion(); // Muat pertanyaan baru
     }
 

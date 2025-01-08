@@ -68,6 +68,46 @@
             outline: none;
             background-color: #99B080;
         }
+
+        /* Popup Styles */
+        .popup-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .popup {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        .popup h2 {
+            margin: 0 0 10px;
+        }
+        .popup-buttons {
+            margin-top: 20px;
+        }
+        .popup-button {
+            background-color: #776B5D;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .popup-button:hover {
+            background-color: #6a5f52;
+        }
     </style>
 </head>
 <body>
@@ -81,32 +121,28 @@
     <button onclick="checkAnswer()">Jawab</button>
 </div>
 
+<!-- Popup HTML -->
+<div id="popup-backdrop" class="popup-backdrop">
+    <div id="popup" class="popup">
+        <h2 id="popup-title">Judul Popup</h2>
+        <p id="popup-message">Pesan Popup</p>
+        <div class="popup-buttons">
+            <button id="close-popup" class="popup-button" onclick="closePopup()">Lanjut</button>
+        </div>
+    </div>
+</div>
+
 <script>
     const questions = [
         {
-            question: "Siapa penemu lampu pijar?",
-            options: ["A. Alexander Graham Bell", "B. Thomas Edison", "C. Nikola Tesla", "D. Albert Einstein"],
-            answer: "B. Thomas Edison"
+            question: "Apa ibukota Indonesia?",
+            options: ["Jakarta", "Jogja", "Bandung", "Surabaya"],
+            answer: "Jakarta"
         },
         {
-            question: "Apa ibu kota Indonesia?",
-            options: ["A. Jakarta", "B. Bandung", "C. Surabaya", "D. Medan"],
-            answer: "A. Jakarta"
-        },
-        {
-            question: "Siapa penulis 'Harry Potter'?",
-            options: ["A. J.R.R. Tolkien", "B. J.K. Rowling", "C. George R.R. Martin", "D. C.S. Lewis"],
-            answer: "B. J.K. Rowling"
-        },
-        {
-            question: "Apa planet terdekat dengan matahari?",
-            options : ["A. Venus", "B. Mars", "C. Merkurius", "D. Bumi"],
-            answer: "C. Merkurius"
-        },
-        {
-            question: "Siapa yang menemukan teori relativitas?",
-            options: ["A. Isaac Newton", "B. Albert Einstein", "C. Niels Bohr", "D. Galileo Galilei"],
-            answer: "B. Albert Einstein"
+            question: "Siapa presiden pertama Indonesia?",
+            options: ["Soekarno", "Soeharto", "Hitler", "Jokowi"],
+            answer: "Soekarno"
         }
     ];
 
@@ -115,13 +151,10 @@
     function loadQuestion() {
         const questionElement = document.getElementById('question');
         const optionsElement = document.getElementById('options');
-
-        // Clear previous options
-        optionsElement.innerHTML = '';
-
-        // Load current question
         const currentQuestion = questions[currentQuestionIndex];
+
         questionElement.textContent = currentQuestion.question;
+        optionsElement.innerHTML = '';
 
         currentQuestion.options.forEach(option => {
             const li = document.createElement('li');
@@ -132,28 +165,37 @@
 
     function checkAnswer() {
         const selectedOption = document.querySelector('input[name="option"]:checked');
-        if (!selectedOption) {
-            alert('Silakan pilih jawaban!');
-            return;
-        }
+        const isCorrect = selectedOption && selectedOption.value === questions[currentQuestionIndex].answer;
 
-        const answer = selectedOption.value;
-        if (answer === questions[currentQuestionIndex].answer) {
-            alert('Jawaban benar!');
-        } else {
-            alert('Jawaban salah! Jawaban yang benar adalah: ' + questions[currentQuestionIndex].answer);
-        }
-
-        currentQuestionIndex++;
-        if (currentQuestionIndex < questions.length) {
-            loadQuestion();
-        } else {
-            alert('Kuis selesai! Terima kasih telah berpartisipasi.');
-        }
+        showPopup(isCorrect, isCorrect ? "" : questions[currentQuestionIndex].answer);
     }
 
-    // Load the first question
+    function showPopup(isCorrect, correctAnswer) {
+        const popupBackdrop = document.getElementById('popup-backdrop');
+        const popupTitle = document.getElementById('popup-title');
+        const popupMessage = document.getElementById('popup-message');
+
+        if (isCorrect) {
+            popupTitle.textContent = "Anjay benar";
+            popupMessage.textContent = "Jawaban Anda benar! Selamat!";
+        } else {
+            popupTitle.textContent = "Salah Yahahahah";
+            popupMessage.textContent = `Jawabannya itu ${correctAnswer}... Mangkanya belajar lagi deck`;
+        }
+
+        popupBackdrop.style.display = 'flex'; // Tampilkan popup
+    }
+
+    function closePopup() {
+        const popupBackdrop = document.getElementById('popup-backdrop');
+        popupBackdrop.style.display = 'none'; // Sembunyikan popup
+        currentQuestionIndex = (currentQuestionIndex + 1) % questions.length; // Pindah ke pertanyaan berikutnya
+        loadQuestion(); // Muat pertanyaan baru
+    }
+
+    // Muat pertanyaan pertama saat halaman dimuat
     loadQuestion();
 </script>
+
 </body>
 </html>

@@ -12,7 +12,7 @@
         }
         html, body {
             height: 100%; /* Set height to 100% */
-            margin: 0;
+            margin: 0; /* Remove default margin */
             overflow: auto; /* Enable scrolling for the body */
         }
         body {
@@ -69,6 +69,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 20px;
+            text-align: center; /* Center the text */
         }
         .question {
             padding: 0 20px;
@@ -115,13 +116,13 @@
         .popup-backdrop {
             position: fixed;
             top: 0;
-            left: 0;
+            left : 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             display: none;
             justify-content: center;
-            align-items : center;
+            align-items: center;
             z-index: 1000;
         }
         .popup {
@@ -159,8 +160,8 @@
             padding: 10px;
             position: relative; /* Change to relative */
             width: 100%;
-            overflow: hidden; /* Disable scrolling for footer */
             height: 50px; /* Set a fixed height for footer */
+            margin-top: auto; /* Push footer to the bottom */
         }
     </style>
 </head>
@@ -246,66 +247,47 @@
             indicatorElement.textContent = "";
             questionElement.textContent = "Terima kasih telah mengikuti kuis!";
             optionsElement.innerHTML = "";
-            submitButton.textContent = "Ulang Soal"; submitButton.setAttribute("onclick", "restartQuiz()"); // Ganti fungsi onclick
+            submitButton.textContent = "Kembali"; submitButton.onclick = function() {
+                currentQuestionIndex = 0; // Reset index
+                loadQuestion(); // Load the first question again
+            };
         }
     }
 
     function checkAnswer() {
         const selectedOption = document.querySelector('input[name="option"]:checked');
-        if (!selectedOption ) {
-            showPopup(false, "Jawab dulu woi baru lanjut");
-            return;
-        }
-
-        const isCorrect = selectedOption.value === questions[currentQuestionIndex].answer;
-        showPopup(isCorrect, isCorrect ? "" : questions[currentQuestionIndex].answer);
-    }
-
-    function showPopup(isCorrect, message) {
-        const popupBackdrop = document.getElementById('popup-backdrop');
         const popupTitle = document.getElementById('popup-title');
         const popupMessage = document.getElementById('popup-message');
+        const popupBackdrop = document.getElementById('popup-backdrop');
 
-        if (isCorrect) {
-            popupTitle.textContent = "Anjay benar";
-            popupMessage.textContent = "Jawaban Anda benar! Selamat!";
+        if (selectedOption) {
+            const answer = selectedOption.value;
+            if (answer === questions[currentQuestionIndex].answer) {
+                popupTitle.textContent = "Jawaban Benar!";
+                popupMessage.textContent = "Selamat, jawaban Anda benar.";
+            } else {
+                popupTitle.textContent = "Jawaban Salah!";
+                popupMessage.textContent = `Jawaban yang benar adalah: ${questions[currentQuestionIndex].answer}`;
+            }
+            popupBackdrop.style.display = "flex"; // Show popup
         } else {
-            popupTitle.textContent = "Salah Yahahahah";
-            popupMessage.textContent = `Jawabannya itu ${message}... Mangkanya belajar lagi deck`;
+            alert("Silakan pilih jawaban terlebih dahulu.");
         }
-
-        popupBackdrop.style.display = 'flex'; // Tampilkan popup
     }
 
     function closePopup() {
         const popupBackdrop = document.getElementById('popup-backdrop');
-        popupBackdrop.style.display = 'none'; // Sembunyikan popup
-        if (currentQuestionIndex < questions.length) {
-            currentQuestionIndex++;
-            loadQuestion();
-        }
-    }
-
-    function restartQuiz() {
-        currentQuestionIndex = 0;
-        loadQuestion();
-        document.getElementById('submit-button').textContent = "Jawab"; // Reset button text
-    }
-
-    function showPrize() {
-        alert("Ini adalah hadiah kuis!");
-    }
-
-    function showResults() {
-        alert("Ini adalah hasil kerja kelompok!");
+        popupBackdrop.style.display = "none"; // Hide popup
+        currentQuestionIndex++; // Move to the next question
+        loadQuestion(); // Load the next question
     }
 
     // Load the first question when the page loads
-    loadQuestion();
+    window.onload = loadQuestion;
 </script>
 
 <footer>
-    <p>&copy; 2023 Nama Kelompok. Semua hak dilindungi.</p>
+    <p>&copy; 2023 Kuis Pengetahuan Umum. Semua hak dilindungi.</p>
 </footer>
 
 </body>

@@ -10,6 +10,11 @@
         * {
             box-sizing: border-box;
         }
+        html, body {
+            height: 100%; /* Set height to 100% */
+            margin: 0;
+            overflow: auto; /* Enable scrolling */
+        }
         body {
             background-color: #EBE3D5;
             background-image: linear-gradient(315deg, #EBE3D5 0%, #F3EEEA 100%);
@@ -17,18 +22,42 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-            margin: 0;
+            justify-content: flex-start; /* Align items to the top */
+        }
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between; /* Space between left and right */
+            align-items: center; /* Center vertically */
+            padding: 10px 20px; /* Add some padding */
+            background-color: #fff; /* Background for header */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+        .header h2 {
+            margin: 0; /* Remove default margin */
+        }
+        .header button {
+            background-color: #776B5D;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .header button:hover {
+            background-color: #6a5f52;
         }
         .quiz-container {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px 2px rgba(100, 100, 100, 0.1);
             width: 600px;
-            overflow: hidden;
+            max-height: 80vh; /* Set max height */
+            overflow-y: auto; /* Enable vertical scrolling */
             padding: 20px;
+            text-align: center; /* Center text in the quiz container */
+            margin-top: 20px; /* Add some space from the top */
         }
         .quiz-header {
             text-align: left;
@@ -37,7 +66,6 @@
             margin: 0;
         }
         .question-indicator {
-            text-align: center;
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 20px;
@@ -84,7 +112,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0 , 0.5);
             display: none;
             justify-content: center;
             align-items: center;
@@ -123,13 +151,20 @@
             color: #fff;
             text-align: center;
             padding: 10px;
-            position: absolute;
-            bottom: 0;
+            position: relative; /* Change to relative */
             width: 100%;
         }
     </style>
 </head>
 <body>
+
+<div class="header">
+    <h2>Nama Kelompok</h2>
+    <div>
+        <button onclick="showPrize()">Hadiah Kuis</button>
+        <button onclick="showResults()">Lihat hasil kerja Kelompok</button>
+    </div>
+</div>
 
 <div class="quiz-container">
     <div class="quiz-header">
@@ -137,8 +172,8 @@
     </div>
     <div class="question-indicator" id="question-indicator">Soal ke 1</div>
     <div class="question" id="question"></div>
-    <ul class="options" id ="options"></ul>
-    <button onclick="checkAnswer()">Jawab</button>
+    <ul class="options" id="options"></ul>
+    <button id="submit-button" onclick="checkAnswer()">Jawab</button>
 </div>
 
 <div class="popup-backdrop" id="popup-backdrop">
@@ -186,6 +221,7 @@
         const questionElement = document.getElementById('question');
         const optionsElement = document.getElementById('options');
         const indicatorElement = document.getElementById('question-indicator');
+        const submitButton = document.getElementById('submit-button');
         const currentQuestion = questions[currentQuestionIndex];
 
         if (currentQuestionIndex < questions.length) {
@@ -199,16 +235,18 @@
                 optionsElement.appendChild(li);
             });
         } else {
-            indicatorElement.textContent = "Okey kelar";
+            indicatorElement.textContent = "";
             questionElement.textContent = "Terima kasih telah mengikuti kuis!";
             optionsElement.innerHTML = "";
+            submitButton.textContent = "Ulang Soal"; // Ganti teks tombol
+            submitButton.setAttribute("onclick", "restartQuiz()"); // Ganti fungsi onclick
         }
     }
 
     function checkAnswer() {
         const selectedOption = document.querySelector('input[name="option"]:checked');
-        if (!selectedOption) {
-            showPopup(false, "Jawab dulu woi baru lanjut", "Pilih dlu");
+        if (!selectedOption ) {
+            showPopup(false, "Jawab dulu woi baru lanjut");
             return;
         }
 
@@ -237,18 +275,30 @@
         popupBackdrop.style.display = 'none'; // Sembunyikan popup
         if (currentQuestionIndex < questions.length) {
             currentQuestionIndex++;
-            loadQuestion(); // Muat pertanyaan baru
+            loadQuestion();
         }
     }
 
-    // Muat pertanyaan pertama saat halaman dimuat
+    function restartQuiz() {
+        currentQuestionIndex = 0;
+        loadQuestion();
+        document.getElementById('submit-button').textContent = "Jawab"; // Reset button text
+    }
+
+    function showPrize() {
+        alert("Ini adalah hadiah kuis!");
+    }
+
+    function showResults() {
+        alert("Ini adalah hasil kerja kelompok!");
+    }
+
+    // Load the first question when the page loads
     loadQuestion();
 </script>
 
 <footer>
-    <p>Nama Kelompok: Kelompok 1</p>
-    <p>Deskripsi: Kuis Pilihan Ganda tentang Indonesia</p>
-    <p>Credit: Pembuat - Nama Anda</p>
+    <p>&copy; 2023 Nama Kelompok. Semua hak dilindungi.</p>
 </footer>
 
 </body>

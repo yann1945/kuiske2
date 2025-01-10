@@ -15,15 +15,16 @@
             margin: 0; /* Remove default margin */
             overflow: auto; /* Enable scrolling for the body */
         }
-        body {
-            background-color: #EBE3D5;
-            background-image: linear-gradient(315deg, #EBE3D5 0%, #F3EEEA 100%);
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; /* Center items vertically */
-        }
+body {
+    background-color: #EBE3D5;
+    background-image: linear-gradient(315deg, #EBE3D5 0%, #F3EEEA 100%);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Ubah dari flex-start ke center */
+    height: 100vh; /* Set height ke 100vh untuk memusatkan secara vertikal */
+}
         .header {
             width: 100%;
             display: flex;
@@ -49,17 +50,17 @@
         .header button:hover {
             background-color: #6a5f52;
         }
-        .quiz-container {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px 2px rgba(100, 100, 100, 0.1);
-            width: 600px;
-            max-height: 80vh; /* Set max height */
-            overflow-y: auto; /* Enable vertical scrolling */
-            padding: 20px;
-            text-align: left; /* Align text to the left */
-            margin: 20px auto; /* Center the quiz container */
-        }
+.quiz-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 2px rgba(100, 100, 100, 0.1);
+    width: 600px;
+    max-height: 80vh; /* Set max height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 20px;
+    text-align: left; /* Align text to the left */
+    margin: 20px; /* Hapus margin auto untuk memusatkan */
+}
         .quiz-header {
             text-align: left;
         }

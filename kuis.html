@@ -42,8 +42,8 @@ body {
 
 .header-buttons {
     display: flex; /* Gunakan flexbox */
-    flex-direction: column; /* Atur agar tombol ditampilkan secara vertikal */
-    align-items: flex-start; /* Rata kiri tombol */
+    flex-direction: row; /* Atur agar tombol ditampilkan secara horizontal */
+    align-items: center; /* Rata tengah secara vertikal */
 }
 
 .header-buttons button {
@@ -54,7 +54,7 @@ body {
     cursor: pointer;
     border-radius: 5px;
     font-size: 1rem;
-    margin: 5px 0; /* Tambahkan margin vertikal antara tombol */
+    margin-left: 10px; /* Tambahkan margin kiri untuk jarak antar tombol */
 }
 
 .header-buttons button:hover {
@@ -196,7 +196,7 @@ footer {
 
 <div class="header">
     <h2>Nama Kelompok</h2>
-    <div>
+    <div class="header-buttons"> <!-- Pembungkus untuk tombol -->
         <button onclick="showPrize()">Hadiah Kuis</button>
         <button onclick="showResults()">Lihat hasil kerja Kelompok</button>
     </div>

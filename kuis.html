@@ -105,9 +105,8 @@
             margin-top: 20px; /* Tambahkan margin atas untuk jarak */
         }
         button {
-            background-color : #776B5D; /* Warna tombol default */
-            color: #fff;
-            border: none;
+            background-color: #776B5D; /* Warna tombol default */
+            color: #fff border: none;
             display: block;
             width: 48%; /* Buat tombol mengambil 48% dari lebar kontainer */
             cursor: pointer;
@@ -199,7 +198,6 @@
         const optionsElement = document.getElementById('options');
         const indicatorElement = document.getElementById('question-indicator');
         const submitButton = document.getElementById('submit-button');
-        const backButton = document.getElementById('back-button');
         const currentQuestion = questions[currentQuestionIndex];
 
         if (currentQuestionIndex < questions.length) {
@@ -226,28 +224,42 @@
 
     function checkAnswer() {
         const selectedOption = document.querySelector('input[name="option"]:checked');
-        const popupTitle = document.getElementById('popup-title');
-        const popupMessage = document.getElementById('popup-message');
-        const popupBackdrop = document.getElementById('popup-backdrop');
+        const popupTitle = document.createElement('div');
+        const popupMessage = document.createElement('div');
+        const popupBackdrop = document.createElement('div');
 
         if (selectedOption) {
             const answer = selectedOption.value;
-            if (answer === questions[currentQuestionIndex].answer) {
+            if (answer === questions[currentQuestion Index].answer) {
                 popupTitle.textContent = "Jawaban Benar!";
-                popupMessage.textContent = " Selamat, jawaban Anda benar.";
+                popupMessage.textContent = "Selamat, jawaban Anda benar.";
             } else {
                 popupTitle.textContent = "Jawaban Salah!";
                 popupMessage.textContent = `Jawaban yang benar adalah: ${questions[currentQuestionIndex].answer}`;
             }
             popupBackdrop.style.display = "flex"; // Show popup
+            popupBackdrop.style.position = "fixed";
+            popupBackdrop.style.top = "0";
+            popupBackdrop.style.left = "0";
+            popupBackdrop.style.width = "100%";
+            popupBackdrop.style.height = "100%";
+            popupBackdrop.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+            popupBackdrop.style.justifyContent = "center";
+            popupBackdrop.style.alignItems = "center";
+            popupBackdrop.appendChild(popupTitle);
+            popupBackdrop.appendChild(popupMessage);
+            document.body.appendChild(popupBackdrop);
+            setTimeout(closePopup, 2000); // Automatically close popup after 2 seconds
         } else {
             alert("Silakan pilih jawaban terlebih dahulu.");
         }
     }
 
     function closePopup() {
-        const popupBackdrop = document.getElementById('popup-backdrop');
-        popupBackdrop.style.display = "none"; // Hide popup
+        const popupBackdrop = document.querySelector('div[style*="position: fixed"]');
+        if (popupBackdrop) {
+            document.body.removeChild(popupBackdrop); // Remove popup
+        }
         currentQuestionIndex++; // Move to the next question
         loadQuestion(); // Load the next question
     }

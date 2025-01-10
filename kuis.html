@@ -40,7 +40,13 @@ body {
     margin: 0; /* Remove default margin */
 }
 
-.header button {
+.header-buttons {
+    display: flex; /* Gunakan flexbox */
+    flex-direction: column; /* Atur agar tombol ditampilkan secara vertikal */
+    align-items: flex-start; /* Rata kiri tombol */
+}
+
+.header-buttons button {
     background-color: #776B5D;
     color: #fff;
     border: none;
@@ -48,10 +54,10 @@ body {
     cursor: pointer;
     border-radius: 5px;
     font-size: 1rem;
-    margin-left: 10px; /* Add margin to the left for spacing */
+    margin: 5px 0; /* Tambahkan margin vertikal antara tombol */
 }
 
-.header button:hover {
+.header-buttons button:hover {
     background-color: #6a5f52;
 }
 

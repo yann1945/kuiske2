@@ -57,7 +57,7 @@
         .quiz-container {
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 0 10px 2px rgba(100,  100, 100, 0.1);
+            box-shadow: 0 0 10px 2px rgba(100, 100, 100, 0.1);
             width: 600px;
             max-height: 80vh; /* Set max height */
             overflow-y: auto; /* Enable vertical scrolling */
@@ -93,7 +93,7 @@
         }
         ul li {
             font-size: 1.2rem;
-            margin: 1rem  0;
+            margin: 1rem 0;
         }
         ul li label {
             cursor: pointer;
@@ -148,7 +148,10 @@
     <div class="question-indicator" id="question-indicator">Soal ke 1</div>
     <div class="question" id="question"></div>
     <div class="options" id="options"></div>
-    <button id="submit-button" onclick="checkAnswer()">Jawab</button>
+    <div class="button-container">
+        <button id="submit-button" onclick="checkAnswer()">Jawab</button>
+        <button id="back-button" onclick="goBack()">Kembali</button>
+    </div>
 </div>
 
 <script>
@@ -187,6 +190,7 @@
         const optionsElement = document.getElementById('options');
         const indicatorElement = document.getElementById('question-indicator');
         const submitButton = document.getElementById('submit-button');
+        const backButton = document.getElementById('back-button');
         const currentQuestion = questions[currentQuestionIndex];
 
         if (currentQuestionIndex < questions.length) {
@@ -221,7 +225,7 @@
             const answer = selectedOption.value;
             if (answer === questions[currentQuestionIndex].answer) {
                 popupTitle.textContent = "Jawaban Benar!";
-                popupMessage.textContent = "Selamat, jawaban Anda benar.";
+                popupMessage.textContent = " Selamat, jawaban Anda benar.";
             } else {
                 popupTitle.textContent = "Jawaban Salah!";
                 popupMessage.textContent = `Jawaban yang benar adalah: ${questions[currentQuestionIndex].answer}`;
@@ -237,6 +241,15 @@
         popupBackdrop.style.display = "none"; // Hide popup
         currentQuestionIndex++; // Move to the next question
         loadQuestion(); // Load the next question
+    }
+
+    function goBack() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--; // Go back to the previous question
+            loadQuestion(); // Load the previous question
+        } else {
+            window.location.href = 'index.html'; // Redirect to index.html if on the first question
+        }
     }
 
     // Load the first question when the page loads

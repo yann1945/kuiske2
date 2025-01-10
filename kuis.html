@@ -27,7 +27,7 @@
         .header {
             width: 100%;
             display: flex;
-            justify-content: center; /* Center header text */
+            justify-content: space-between; /* Space between left and right */
             align-items: center; /* Center vertically */
             padding: 10px 20px; /* Add some padding */
             background-color: #fff; /* Background for header */
@@ -35,6 +35,24 @@
         }
         .header h2 {
             margin: 0; /* Remove default margin */
+        }
+        .header-buttons {
+            display: flex; /* Gunakan flexbox */
+            flex-direction: row; /* Atur agar tombol ditampilkan secara horizontal */
+            align-items: center; /* Rata tengah secara vertikal */
+        }
+        .header-buttons button {
+            background-color: #776B5D;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-left: 10px; /* Tambahkan margin kiri untuk jarak antar tombol */
+        }
+        .header-buttons button:hover {
+            background-color: #6a5f52;
         }
         .quiz-container {
             background-color: #fff;
@@ -69,9 +87,9 @@
             width: 100%; /* Make options take full width */
         }
         ul {
-            list-style-type: none; /* Menghilangkan titik bulat hitam */
-            padding: 0; /* Menghilangkan padding default */
-            margin: 0; /* Menghilangkan margin default */
+            list-style-type: none;
+            padding: 0;
+            margin: 0; /* Remove margin */
         }
         ul li {
             font-size: 1.2rem;
@@ -80,43 +98,59 @@
         ul li label {
             cursor: pointer;
         }
-        .button-container {
-            display: flex; /* Gunakan flexbox untuk tombol */
-            justify-content: space-between; /* Ruang antar tombol */
-            width: 100%; /* Lebar penuh */
+        button {
+            background-color: #776B5D;
+            color: #fff;
+            border: none;
+            display: block;
+            width: 100%; /* Make button take full width */
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-family: inherit;
+            padding: 1.3rem;
+            margin-top: 20px; /* Add margin for spacing */
         }
-        .button-container button {
-            flex: 1; /* Tombol mengambil ruang yang sama */
-            padding: 15px; /* Padding untuk tombol */
-            border-radius: 0; /* Ujung tombol tidak runcing */
-            margin: 5px; /* Jarak antar tombol */
+        button:hover {
+            background-color: #6a5f52;
         }
-        .button-container .btn-kembali {
-            background-color: pink; /* Warna merah muda untuk tombol kembali */
-            color: #fff; /* Warna teks putih */
+        button:focus {
+            outline: none;
+            background-color: #99B080;
         }
-        .button-container .btn-jawab {
-            background-color: #4CAF50; /* Warna hijau untuk tombol jawab */
-            color: #fff; /* Warna teks putih */
-        }
-        .button-container button:hover {
-            opacity: 0.9; /* Efek hover */
+        /* Footer Styles */
+        footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0; /* Add padding for symmetry */
+            position: relative; /* Change to relative */
+            width: 100%;
+            height: auto; /* Set height to auto */
+            margin-top: auto; /* Push footer to the bottom */
         }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h2 id="materi-header">MATERI PPKN</h2> <!-- Header dinamis -->
+    <h2>Nama Kelompok</h2>
+    <div class="header-buttons"> <!-- Pembungkus untuk tombol -->
+        <button onclick="showRepo()">Repo Website</button>
+        <button onclick="window.location.href='hadiah.html'">Hadiah Kuis</button>
+        <button onclick="showResults()">Hasil Kelompok 4</button>
+    </div>
 </div>
 
 <div class="quiz-container">
+    <div class="quiz-header">
+        <h2>Kuis Pengetahuan Umum</h2>
+    </div>
     <div class="question-indicator" id="question-indicator">Soal ke 1</div>
     <div class="question" id="question"></div>
-    <ul class="options" id="options"></ul>
+    <div class="options" id="options"></div>
     <div class="button-container">
-        <button class="btn-kembali" id="back-button" onclick="goBack()">Kembali</button>
-        <button class="btn-jawab" id="submit-button" onclick="checkAnswer()">Jawab</button>
+        <button id="submit-button" onclick="checkAnswer()">Jawab</button>
+        <button id="back-button" onclick="goBack()">Kembali</button>
     </div>
 </div>
 
@@ -155,6 +189,8 @@
         const questionElement = document.getElementById('question');
         const optionsElement = document.getElementById('options');
         const indicatorElement = document.getElementById('question-indicator');
+        const submitButton = document.getElementById('submit-button');
+        const backButton = document.getElementById('back-button');
         const currentQuestion = questions[currentQuestionIndex];
 
         if (currentQuestionIndex < questions.length) {
@@ -171,35 +207,58 @@
             indicatorElement.textContent = "";
             questionElement.textContent = "Terima kasih telah mengikuti kuis!";
             optionsElement.innerHTML = "";
+            submitButton.textContent = "Kembali"; 
+            submitButton.onclick = function() {
+                currentQuestionIndex = 0; // Reset index
+                loadQuestion(); // Load the first question again
+            };
         }
     }
 
     function checkAnswer() {
         const selectedOption = document.querySelector('input[name="option"]:checked');
+        const popupTitle = document.getElementById('popup-title');
+        const popupMessage = document.getElementById('popup-message');
+        const popupBackdrop = document.getElementById('popup-backdrop');
+
         if (selectedOption) {
             const answer = selectedOption.value;
             if (answer === questions[currentQuestionIndex].answer) {
-                alert("Jawaban Benar!");
+                popupTitle.textContent = "Jawaban Benar!";
+                popupMessage.textContent = " Selamat, jawaban Anda benar.";
             } else {
-                alert(`Jawaban Salah! Jawaban yang benar adalah: ${questions[currentQuestionIndex].answer}`);
+                popupTitle.textContent = "Jawaban Salah!";
+                popupMessage.textContent = `Jawaban yang benar adalah: ${questions[currentQuestionIndex].answer}`;
             }
-            currentQuestionIndex++;
-            loadQuestion();
+            popupBackdrop.style.display = "flex"; // Show popup
         } else {
             alert("Silakan pilih jawaban terlebih dahulu.");
         }
     }
 
+    function closePopup() {
+        const popupBackdrop = document.getElementById('popup-backdrop');
+        popupBackdrop.style.display = "none"; // Hide popup
+        currentQuestionIndex++; // Move to the next question
+        loadQuestion(); // Load the next question
+    }
+
     function goBack() {
         if (currentQuestionIndex > 0) {
-            currentQuestionIndex--;
-            loadQuestion();
+            currentQuestionIndex--; // Go back to the previous question
+            loadQuestion(); // Load the previous question
         } else {
-            alert("Anda sudah di soal pertama.");
+            window.location.href = 'index.html'; // Redirect to index.html if on the first question
         }
     }
 
+    // Load the first question when the page loads
     window.onload = loadQuestion;
+
+    // Untuk Button header
+    function showRepo() {
+        window.open("https://github.com/yann1945/kuiske2/tree/main", "_blank"); // Membuka URL di tab baru
+    }
 </script>
 
 <footer>

@@ -87,7 +87,7 @@
             width: 100%; /* Make options take full width */
         }
         ul {
-            list-style-type: none;
+            list-style-type: none; /* Menghilangkan titik bulat */
             padding: 0;
             margin: 0; /* Remove margin */
         }
@@ -98,17 +98,26 @@
         ul li label {
             cursor: pointer;
         }
+        .button-container {
+            display: flex; /* Gunakan flexbox untuk tombol */
+            justify-content: space-between; /* Jarak antar tombol */
+            width: 100%; /* Buat tombol mengambil lebar penuh */
+            margin-top: 20px; /* Tambahkan margin atas untuk jarak */
+        }
         button {
-            background-color: #776B5D;
+            background-color : #776B5D; /* Warna tombol default */
             color: #fff;
             border: none;
             display: block;
-            width: 100%; /* Make button take full width */
+            width: 48%; /* Buat tombol mengambil 48% dari lebar kontainer */
             cursor: pointer;
             font-size: 1.1rem;
             font-family: inherit;
             padding: 1.3rem;
-            margin-top: 20px; /* Add margin for spacing */
+            border-radius: 0; /* Tidak runcing */
+        }
+        #back-button {
+            background-color: #FF69B4; /* Warna merah muda untuk tombol Kembali */
         }
         button:hover {
             background-color: #6a5f52;

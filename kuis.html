@@ -87,7 +87,7 @@
             width: 100%; /* Make options take full width */
         }
         ul {
-            list-style-type: none; /* Menghilangkan titik bulat */
+            list-style-type: none;
             padding: 0;
             margin: 0; /* Remove margin */
         }
@@ -98,26 +98,17 @@
         ul li label {
             cursor: pointer;
         }
-        .button-container {
-            display: flex; /* Gunakan flexbox untuk tombol */
-            justify-content: space-between; /* Jarak antar tombol */
-            width: 100%; /* Buat tombol mengambil lebar penuh */
-            margin-top: 20px; /* Tambahkan margin atas untuk jarak */
-        }
         button {
-            background-color: #776B5D; /* Warna tombol default */
+            background-color: #776B5D;
             color: #fff;
             border: none;
             display: block;
-            width: 48%; /* Buat tombol mengambil 48% dari lebar kontainer */
+            width: 100%; /* Make button take full width */
             cursor: pointer;
             font-size: 1.1rem;
             font-family: inherit;
             padding: 1.3rem;
-            border-radius: 0; /* Tidak runcing */
-        }
-        #back-button {
-            background-color: #FF69B4; /* Warna merah muda untuk tombol Kembali */
+            margin-top: 20px; /* Add margin for spacing */
         }
         button:hover {
             background-color: #6a5f52;
@@ -226,7 +217,8 @@
 
     function checkAnswer() {
         const selectedOption = document.querySelector('input[name="option"]:checked');
-        const popupTitle = document.getElementById('popup-title const popupMessage = document.getElementById('popup-message');
+        const popupTitle = document.getElementById('popup-title');
+        const popupMessage = document.getElementById('popup-message');
         const popupBackdrop = document.getElementById('popup-backdrop');
 
         if (selectedOption) {

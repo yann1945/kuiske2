@@ -10,11 +10,12 @@
         * {
             box-sizing: border-box;
         }
-        html, body {
-            height: 100%; /* Set height to 100% */
-            margin: 0; /* Remove default margin */
-            overflow: auto; /* Enable scrolling for the body */
-        }
+html, body {
+    height: 100%; /* Set height to 100% */
+    margin: 0; /* Remove default margin */
+    overflow: hidden; /* Disable scrolling */
+}
+
 body {
     background-color: #EBE3D5;
     background-image: linear-gradient(315deg, #EBE3D5 0%, #F3EEEA 100%);
@@ -22,9 +23,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Ubah dari flex-start ke center */
-    height: 100vh; /* Set height ke 100vh untuk memusatkan secara vertikal */
+    justify-content: center; /* Center vertically */
+    height: 100vh; /* Set height to 100vh */
 }
+
 .header {
             width: 100%;
             display: flex;
@@ -59,7 +61,7 @@ body {
     overflow-y: auto; /* Enable vertical scrolling */
     padding: 20px;
     text-align: left; /* Align text to the left */
-    margin: 20px; /* Hapus margin auto untuk memusatkan */
+    margin: 20px; /* Add margin for spacing */
 }
         .quiz-header {
             text-align: left;
